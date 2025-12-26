@@ -1,7 +1,7 @@
 {
   "name": "secretshield-patricio0312rev",
-  "displayName": "SecretShield - Keep your secrets safe when working with AI",
-  "description": "Automatically detect and redact secrets (API keys, tokens, credentials) before copying code to AI chats. Keep your secrets safe when working with Claude, ChatGPT, and other LLMs.",
+  "displayName": "SecretShield - Safe Paste your Secrets for AI and LLMs",
+  "description": "Automatically detect and redact secrets (API keys, tokens, credentials) before copying code to AI chats. Keep your secrets safe when working with Claude, ChatGPT, and other LLMs. Safe Paste your Secrets for AI and LLMs.",
   "version": "0.1.0",
   "publisher": "patricio0312rev",
   "engines": {
