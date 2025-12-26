@@ -103,6 +103,8 @@ export interface SecretShieldConfig {
     sensitivity: SensitivityLevel;
     /** Show diff preview before copying */
     showDiff: boolean;
+    /** Show confirmation dialog before copying */
+    showConfirmation: boolean;
     /** Patterns to allow (won't be redacted) */
     allowList: string[];
     /** Patterns to deny (will be redacted) */
