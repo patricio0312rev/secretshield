@@ -111,6 +111,20 @@ export const SECRET_PATTERNS: SecretPattern[] = [
         confidence: 0.95,
     },
 
+    // Environment variable patterns for keys
+    {
+        type: SecretType.GENERIC_API_KEY,
+        pattern: /(?:API_KEY|ACCESS_KEY|[A-Z_]*_KEY)\s*[:=]\s*['"]([a-zA-Z0-9_\-]{8,})['"]?/g,
+        description: 'Environment Variable Key Pattern',
+        confidence: 0.85,
+    },
+    {
+        type: SecretType.GENERIC_API_KEY,
+        pattern: /export\s+(?:API_KEY|ACCESS_KEY|[A-Z_]*_KEY)\s*=\s*['"]?([a-zA-Z0-9_\-]{8,})['"]?/g,
+        description: 'Exported Environment Variable Key',
+        confidence: 0.85,
+    },
+
     // Generic API Keys (less specific, lower confidence)
     {
         type: SecretType.GENERIC_API_KEY,
