@@ -45,7 +45,75 @@
         "mac": "cmd+c",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "SecretShield",
+      "properties": {
+        "secretshield.redactionStyle": {
+          "type": "string",
+          "enum": [
+            "partial",
+            "full",
+            "placeholder",
+            "labeled"
+          ],
+          "enumDescriptions": [
+            "Partial masking: sk-****...****",
+            "Full replacement: [REDACTED]",
+            "Placeholder hint: <YOUR_API_KEY>",
+            "Type-labeled: [OPENAI_API_KEY]"
+          ],
+          "default": "partial",
+          "description": "How secrets should be redacted"
+        },
+        "secretshield.sensitivity": {
+          "type": "string",
+          "enum": [
+            "strict",
+            "balanced",
+            "lenient"
+          ],
+          "enumDescriptions": [
+            "Aggressive detection - catches potential secrets",
+            "Balanced approach - common secrets only",
+            "Conservative - only obvious secrets"
+          ],
+          "default": "balanced",
+          "description": "Detection sensitivity level"
+        },
+        "secretshield.showDiff": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show diff preview before copying redacted text"
+        },
+        "secretshield.showConfirmation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show confirmation dialog before copying redacted text"
+        },
+        "secretshield.allowList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Patterns to allow (won't be redacted). Supports wildcards (e.g., 'sk-test-*', 'example.com')"
+        },
+        "secretshield.denyList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Custom patterns to redact (e.g., '*.internal.company.com')"
+        },
+        "secretshield.interceptAllCopy": {
+          "type": "boolean",
+          "default": true,
+          "description": "Intercept all copy operations in the editor"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
