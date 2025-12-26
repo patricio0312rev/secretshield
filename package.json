@@ -1,0 +1,70 @@
+{
+  "name": "secretshield-patricio0312rev",
+  "displayName": "SecretShield - Keep your secrets safe when working with AI",
+  "description": "Automatically detect and redact secrets (API keys, tokens, credentials) before copying code to AI chats. Keep your secrets safe when working with Claude, ChatGPT, and other LLMs.",
+  "version": "0.1.0",
+  "publisher": "patricio0312rev",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "icon": "icon.png",
+  "categories": [
+    "Other",
+    "Linters"
+  ],
+  "keywords": [
+    "security",
+    "secrets",
+    "redact",
+    "privacy",
+    "api-keys",
+    "credentials",
+    "ai",
+    "claude",
+    "chatgpt",
+    "copy",
+    "clipboard"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "secretshield.copyWithShield",
+        "title": "SecretShield: Copy with Protection"
+      },
+      {
+        "command": "secretshield.copyWithoutShield",
+        "title": "SecretShield: Copy Without Protection"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "secretshield.copyWithShield",
+        "key": "ctrl+c",
+        "mac": "cmd+c",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.x",
+    "@typescript-eslint/parser": "^6.x",
+    "eslint": "^8.x",
+    "typescript": "^5.3.0"
+  },
+  "author": "Patricio Marroquin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/patricio0312rev/secretshield"
+  }
+}
