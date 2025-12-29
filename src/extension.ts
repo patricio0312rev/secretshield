@@ -21,6 +21,12 @@ import { COMMANDS, MESSAGES } from './constants';
 export function activate(context: vscode.ExtensionContext): void {
     console.log('SecretShield extension is now active');
 
+    const statusBarItem = vscode.window.createStatusBarItem(
+        vscode.StatusBarAlignment.Right,
+        100
+    );
+    context.subscriptions.push(statusBarItem);
+
     // Initialize services following Dependency Injection pattern
     const configService = new ConfigurationService();
     const clipboardService = new ClipboardService();
@@ -31,7 +37,8 @@ export function activate(context: vscode.ExtensionContext): void {
         configService,
         clipboardService,
         scrubberService,
-        diffService
+        diffService,
+        statusBarItem
     );
 
     // Register copy with shield command (Cmd+C / Ctrl+C)

@@ -16,16 +16,38 @@ import { ScrubResult } from '../types';
  * Orchestrates configuration, detection, redaction, diff, and clipboard services
  */
 export class ShieldService {
+    private statusBarTimeout?: NodeJS.Timeout;
+
     constructor(
         private readonly configService: ConfigurationService,
         private readonly clipboardService: ClipboardService,
         private readonly scrubberService: ScrubberService,
-        private readonly diffService: DiffService
+        private readonly diffService: DiffService,
+        private readonly statusBarItem: vscode.StatusBarItem
     ) {}
 
     /**
+     * Show a temporary message in the status bar
+     *
+     * @param message - Message to display
+     * @param duration - Duration in milliseconds (default: 3000)
+     */
+    private showStatusBarMessage(message: string, duration: number = 3000): void {
+        if (this.statusBarTimeout) {
+            clearTimeout(this.statusBarTimeout);
+        }
+
+        this.statusBarItem.text = `$(shield) ${message}`;
+        this.statusBarItem.show();
+
+        this.statusBarTimeout = setTimeout(() => {
+            this.statusBarItem.hide();
+        }, duration);
+    }
+
+    /**
      * Copy text with secret protection
-     * 
+     *
      * @param text - Text to copy
      * @returns Promise that resolves when copy is complete
      */
@@ -35,10 +57,9 @@ export class ShieldService {
         // Scrub the text
         const result = this.scrubberService.scrubText(text, config);
 
-        // No secrets found - copy as is
+        // No secrets found - copy as is (no message shown per user request)
         if (!result.hasSecrets) {
             await this.clipboardService.copyToClipboard(text);
-            vscode.window.showInformationMessage(MESSAGES.NO_SECRETS_FOUND);
             return;
         }
 
@@ -63,22 +84,19 @@ export class ShieldService {
             }
         }
 
-        // Copy scrubbed text
+        // Copy scrubbed text (no message shown per user request)
         await this.clipboardService.copyToClipboard(result.scrubbedText);
-        vscode.window.showInformationMessage(
-            MESSAGES.SECRETS_REDACTED(result.redactions.length)
-        );
     }
 
     /**
      * Copy text without protection (bypass shield)
-     * 
+     *
      * @param text - Text to copy
      * @returns Promise that resolves when copy is complete
      */
     public async copyWithoutShield(text: string): Promise<void> {
         await this.clipboardService.copyToClipboard(text);
-        vscode.window.showInformationMessage(MESSAGES.COPY_WITHOUT_PROTECTION);
+        this.showStatusBarMessage(MESSAGES.COPY_WITHOUT_PROTECTION);
     }
 
     /**
